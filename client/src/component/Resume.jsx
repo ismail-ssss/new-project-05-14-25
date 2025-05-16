@@ -38,9 +38,9 @@ const Resume = () => {
   });
 
   const pattern = [
-    <div className="me-5 ms-5 card p-5  ">
-      <div className="fs-3 card ps-4 mb-3">CURRICULUM VITAE</div>
-      <div className="card p-3 w-25 ">
+    <div className="gap-2 ps-5 row container-fluid">
+      <div className="card fs-3">CURRICULUM VITAE</div>
+      <div className="card p-3 col-md-12">
         <h4 className="">{data.name}</h4>
         <p>{data.address}</p>
         <p>{data.district}</p>
