@@ -16,13 +16,12 @@ const Register = () => {
     credentials.map((c) => {
       if (c.email == email && pass == c.pass) {
         navigate("/");
-      } 
+      }
     });
-    setCredentials(
-      localStorage.setItem(
-        "auth",
-        JSON.stringify([...credentials, { email: e.email, pass: e.pass }])
-      )
+    setCredentials([...credentials, { email: e.email, pass: e.pass }]);
+    localStorage.setItem(
+      "auth",
+      JSON.stringify([...credentials, { email: e.email, pass: e.pass }])
     );
   };
   return (
