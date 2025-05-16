@@ -39,8 +39,10 @@ const Resume = () => {
 
   const pattern = [
     <div className="gap-2 ps-5 row container-fluid">
-      <div className="card fs-3">CURRICULUM VITAE</div>
-      <div className="card p-3 col-md-12">
+      <h5 className="card p-2" style={{ backgroundColor: "#adb5bd" }}>
+        CURRICULUM VITAE
+      </h5>
+      <div className="card p-3 col-md-12 ">
         <h4 className="">{data.name}</h4>
         <p>{data.address}</p>
         <p>{data.district}</p>
@@ -48,43 +50,45 @@ const Resume = () => {
         <p>Email: {data.email}</p>
       </div>
       {/* Career Objective */}
-      <section className="mt-6">
-        <h3 className="bg-gray-300 px-2 py-1 font-bold border border-gray-600">
+      <div className="p-0">
+        <h5 className="card p-2" style={{ backgroundColor: "#adb5bd" }}>
           CAREER OBJECTIVES:
-        </h3>
-        <p className="mt-2 text-justify">{data.careerObjective}</p>
-      </section>
+        </h5>
+        <p className="text-justify">{data.careerObjective}</p>
+      </div>
       {/* Academic Details */}
-      <section className="mt-6">
-        <h3 className="bg-gray-300 px-2 py-1 font-bold border border-gray-600">
+      <section className="p-0">
+        <h5 className="card p-2" style={{ backgroundColor: "#adb5bd" }}>
           ACADEMIC DETAILS:
-        </h3>
-        {data.education.map((edu, idx) => (
-          <div key={idx} className="mt-4 pl-4">
-            <p className="font-bold">{edu.title}</p>
-            <p>
-              {edu.college || edu.school} <br />
-              {edu.university || edu.board} <br />
-              Division: {edu.division}
-            </p>
-          </div>
-        ))}
+        </h5>
+        <ul>
+          {data.education.map((edu, idx) => (
+            <div key={idx} className="mt-4 pl-4">
+              <li>{edu.title}</li>
+              <p>
+                {edu.college || edu.school} <br />
+                {edu.university || edu.board} <br />
+                Division: {edu.division}
+              </p>
+            </div>
+          ))}
+        </ul>
       </section>
       {/* Computer Proficiency */}
-      <section className="mt-6">
-        <h3 className="bg-gray-300 px-2 py-1 font-bold border border-gray-600">
+      <section className="p-0">
+        <h5 className="card p-2" style={{ backgroundColor: "#adb5bd" }}>
           COMPUTER PROFICIENCY:
-        </h3>
+        </h5>
         <ul className="list-disc ml-6 mt-2">
           <li>Office Automation: {data.skills.office}</li>
           <li>Technical Knowledge: {data.skills.technical}</li>
         </ul>
       </section>
       {/* Hobbies & Interests */}
-      <section className="mt-6 mb-4">
-        <h3 className="bg-gray-300 px-2 py-1 font-bold border border-gray-600">
+      <section className="p-0">
+        <h5 className="card p-2" style={{ backgroundColor: "#adb5bd" }}>
           HOBBIES & INTERESTS:
-        </h3>
+        </h5>
         <ul className="list-disc ml-6 mt-2">
           {data.hobbies.map((hobby, i) => (
             <li key={i}>{hobby}</li>
@@ -92,12 +96,10 @@ const Resume = () => {
         </ul>
       </section>
     </div>,
-    <div className="border border-gray-400 p-6 shadow-md rounded-md bg-white">
-      <h2 className="text-2xl font-bold text-center border-b pb-2">
-        Curriculum Vitae
-      </h2>
+    <div className="card m-3 p-3 ">
+      <h2 className="text-center">Curriculum Vitae</h2>
       <div className="mt-4 text-center">
-        <h3 className="text-lg font-semibold">{data.name}</h3>
+        <h5 className="text-lg font-semibold">{data.name}</h5>
         <p>
           {data.address}, {data.district}
         </p>
@@ -110,40 +112,40 @@ const Resume = () => {
         <p className="mt-2 text-justify">{data.careerObjective}</p>
       </div>
     </div>,
-    <div className="grid grid-cols-3 gap-6 bg-gray-50 p-6 shadow-lg rounded">
+    <div className="p-3">
       {/* Left Sidebar */}
-      <div className="col-span-1 bg-gray-200 p-4 rounded">
-        <h3 className="font-bold text-lg">{data.name}</h3>
-        <p className="text-sm">
-          {data.address}, {data.district}
-        </p>
-        <p className="text-sm">📞 {data.phone}</p>
-        <p className="text-sm">📧 {data.email}</p>
 
-        <div className="mt-4">
-          <h4 className="font-semibold underline">Skills</h4>
-          <p className="text-sm">Office: {data.skills.office}</p>
-          <p className="text-sm">Technical: {data.skills.technical}</p>
-        </div>
-      </div>
+      <ul>
+        <h5 className="font-bold text-lg">{data.name}</h5>
+        <li className="text-sm">
+          {data.address}, {data.district}
+        </li>
+        <li className="text-sm">📞 {data.phone}</li>
+        <li className="text-sm">📧 {data.email}</li>
+      </ul>
+      <ul className="mt-4">
+        <h4 className="font-semibold underline">Skills</h4>
+        <li className="text-sm">Office: {data.skills.office}</li>
+        <li className="text-sm">Technical: {data.skills.technical}</li>
+      </ul>
 
       {/* Main Content */}
       <div className="col-span-2">
-        <h3 className="text-xl font-bold mb-2">Career Objective</h3>
+        <h5 className="text-xl font-bold mb-2">Career Objective</h5>
         <p className="text-justify">{data.careerObjective}</p>
 
-        <h3 className="text-xl font-bold mt-4">Academic Details</h3>
+        <h5 className="text-xl font-bold mt-4">Academic Details</h5>
         {data.education.map((edu, idx) => (
-          <div key={idx} className="mt-2 pl-2 border-l-4 border-blue-500">
-            <p className="font-bold">{edu.title}</p>
+          <ul key={idx} className="mt-2 pl-2 border-l-4 border-blue-500">
+            <li className="font-bold">{edu.title}</li>
             <p className="text-sm">{edu.college || edu.school}</p>
             <p className="text-sm">{edu.university || edu.board}</p>
             <p className="text-sm">Division: {edu.division}</p>
-          </div>
+          </ul>
         ))}
       </div>
     </div>,
-    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg border border-gray-300">
+    <div className="m-5 max-w-3xl  p-5 bg-white shadow-lg rounded-lg border border-gray-300">
       <h1 className="text-2xl font-bold text-center mb-6">Resume</h1>
       <div className="space-y-2">
         <h2 className="text-xl font-semibold">{data.name}</h2>
@@ -156,12 +158,12 @@ const Resume = () => {
       </div>
       <hr className="my-4" />
       <div>
-        <h3 className="font-semibold text-lg mb-1">Career Objective</h3>
+        <h5 className="font-semibold text-lg mb-1">Career Objective</h5>
         <p className="text-sm text-justify">{data.careerObjective}</p>
       </div>
       <hr className="my-4" />
       <div>
-        <h3 className="font-semibold text-lg mb-1">Education</h3>
+        <h5 className="font-semibold text-lg mb-1">Education</h5>
         {data.education.map((edu, i) => (
           <div key={i} className="mb-2">
             <p className="font-bold">{edu.title}</p>
@@ -172,7 +174,7 @@ const Resume = () => {
         ))}
       </div>
     </div>,
-    <div className="bg-gray-900 text-gray-100 p-6 rounded shadow-lg">
+    <div className="m-5  bg-gray-900 text-gray-100 p-5 rounded shadow-lg">
       <h1 className="text-3xl font-bold text-center text-yellow-400">Resume</h1>
       <div className="mt-4">
         <h2 className="text-lg font-bold">{data.name}</h2>
@@ -184,26 +186,26 @@ const Resume = () => {
         </p>
       </div>
       <div className="mt-6">
-        <h3 className="text-yellow-300 font-bold border-b border-yellow-400 pb-1 mb-2">
+        <h5 className="text-yellow-300 font-bold border-b border-yellow-400 pb-1 mb-2">
           Career Objective
-        </h3>
+        </h5>
         <p className="text-justify">{data.careerObjective}</p>
       </div>
       <div className="mt-6">
-        <h3 className="text-yellow-300 font-bold border-b border-yellow-400 pb-1 mb-2">
+        <h5 className="text-yellow-300 font-bold border-b border-yellow-400 pb-1 mb-2">
           Education
-        </h3>
+        </h5>
         {data.education.map((edu, i) => (
-          <div key={i} className="mb-3">
-            <p className="font-semibold">{edu.title}</p>
+          <ul key={i} className="mb-3">
+            <li className="font-semibold">{edu.title}</li>
             <p>{edu.college || edu.school}</p>
             <p>{edu.university || edu.board}</p>
             <p>Division: {edu.division}</p>
-          </div>
+          </ul>
         ))}
       </div>
     </div>,
-    <div className="p-6 bg-white max-w-4xl mx-auto space-y-6">
+    <div className="p-5 bg-white max-w-4xl mx-auto space-y-6">
       <div className="text-center">
         <h2 className="text-2xl font-bold">Curriculum Vitae</h2>
         <p>{data.name}</p>
@@ -216,12 +218,12 @@ const Resume = () => {
       </div>
 
       <div className="bg-gray-100 p-4 rounded shadow">
-        <h3 className="text-lg font-bold mb-2">Career Objective</h3>
+        <h5 className="text-lg font-bold mb-2">Career Objective</h5>
         <p className="text-justify text-sm">{data.careerObjective}</p>
       </div>
 
       <div className="bg-gray-100 p-4 rounded shadow">
-        <h3 className="text-lg font-bold mb-2">Academic Details</h3>
+        <h5 className="text-lg font-bold mb-2">Academic Details</h5>
         {data.education.map((edu, i) => (
           <div key={i} className="text-sm mb-3">
             <strong>{edu.title}</strong>
@@ -233,7 +235,7 @@ const Resume = () => {
       </div>
 
       <div className="bg-gray-100 p-4 rounded shadow">
-        <h3 className="text-lg font-bold mb-2">Skills</h3>
+        <h5 className="text-lg font-bold mb-2">Skills</h5>
         <p>Office: {data.skills.office}</p>
         <p>Technical: {data.skills.technical}</p>
       </div>
