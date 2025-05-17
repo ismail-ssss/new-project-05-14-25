@@ -11,18 +11,17 @@ const Register = () => {
       ? JSON.parse(localStorage.getItem("auth"))
       : []
   );
+  localStorage.setItem("auth", JSON.stringify(credentials));
   const onLogin = (e) => {
     e.preventDefault();
     credentials.map((c) => {
+      console.log(c.email, c.pass);
+      if (c.email == undefined || c.pass == undefined) return;
       if (c.email == email && pass == c.pass) {
         navigate("/");
       }
     });
-    setCredentials([...credentials, { email: e.email, pass: e.pass }]);
-    localStorage.setItem(
-      "auth",
-      JSON.stringify([...credentials, { email: e.email, pass: e.pass }])
-    );
+    setCredentials([...credentials, { email: email, pass: pass }]);
   };
   return (
     <>

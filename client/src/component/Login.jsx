@@ -17,8 +17,6 @@ const Login = () => {
         sessionStorage.setItem("logedin", JSON.stringify("hello"));
         console.log("hello");
         navigate("/");
-      } else {
-        alert("credentials not match");
       }
     });
   };
