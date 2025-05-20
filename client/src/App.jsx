@@ -11,7 +11,6 @@ import Login from "./component/Login";
 import Register from "./component/Register";
 import Addinfo from "./component/Addinfo";
 import { useEffect } from "react";
-import ResumeForm from "./component/ResumeForm";
 function App() {
   let navigate = useNavigate();
   function WithAuth(Func) {
@@ -23,21 +22,24 @@ function App() {
       return auth ? <Func {...props} /> : <div>null</div>;
     };
   }
-  const Auth = WithAuth(Addinfo);
-  const Auth2 = WithAuth(ResumeForm);
+  const AuthProfile = WithAuth(Profile);
+  const AuthAddinfo = WithAuth(Addinfo);
+  const AuthResume = WithAuth(Resume);
+  const AuthProject = WithAuth(Project);
+  const AuthAbout = WithAuth(About);
+  const AuthContact = WithAuth(Contact);
   return (
     <>
       <Header />
       <Routes>
-        <Route path="/" element={<Profile />}></Route>
-        <Route path="/resume" element={<Resume />} />
-        <Route path="/project" element={<Project />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
+        <Route path="/" element={<AuthProfile />}></Route>
+        <Route path="/resume" element={<AuthResume />} />
+        <Route path="/project" element={<AuthProject />} />
+        <Route path="/about" element={<AuthAbout />} />
+        <Route path="/contact" element={<AuthContact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/editinfo" element={<Auth />} />
-        <Route path="/resumeform" element={<Auth2 />} />
+        <Route path="/editinfo" element={<AuthAddinfo />} />
       </Routes>
     </>
   );

@@ -15,9 +15,8 @@ const Register = () => {
   const onLogin = (e) => {
     e.preventDefault();
     credentials.map((c) => {
-      console.log(c.email, c.pass);
-      if (c.email == undefined || c.pass == undefined) return;
       if (c.email == email && pass == c.pass) {
+        sessionStorage.setItem("logedin", JSON.stringify("hello"));
         navigate("/");
       }
     });

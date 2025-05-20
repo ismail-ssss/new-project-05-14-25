@@ -28,7 +28,7 @@ function Navbar() {
               Resume/CV
             </NavLink>
           </li>
-          <li className="nav-item dropdown">
+          {/* <li className="nav-item dropdown">
             <NavLink
               to="/project"
               className={({ isActive }) =>
@@ -61,7 +61,7 @@ function Navbar() {
                 </a>
               </li>
             </ul>
-          </li>
+          </li> */}
           <li className="nav-item">
             <NavLink
               to="/about"
@@ -87,20 +87,29 @@ function Navbar() {
             </NavLink>
           </li>
         </ul>
-        <NavLink to="/login" className="btn btn-outline-info me-2">
-          login
-        </NavLink>
-        <button
-          className="btn btn-outline-danger"
-          onClick={() => {
-            if (confirm("confirm you want to logOut")) {
-              sessionStorage.clear();
-              navigator("/");
-            }
-          }}
-        >
-          logOut
-        </button>
+
+        {sessionStorage.getItem("logedin") ? (
+          <>
+            <NavLink to="/editinfo" className="btn btn-outline-info me-2">
+              edit info
+            </NavLink>
+            <NavLink
+              to="/login"
+              className="btn btn-outline-danger"
+              onClick={() => {
+                if (confirm("confirm you want to logOut")) {
+                  sessionStorage.clear();
+                }
+              }}
+            >
+              logOut
+            </NavLink>
+          </>
+        ) : (
+          <NavLink to="/login" className="btn btn-outline-info me-2">
+            login
+          </NavLink>
+        )}
       </div>
     </>
   );

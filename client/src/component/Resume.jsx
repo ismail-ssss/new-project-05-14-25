@@ -1,32 +1,26 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { useEffect, useRef, useState } from "react";
 
 const Resume = () => {
-  const [data] = useState({
-    name: "SHAHBAJ AHMAD",
-    address: "Subhash Nagar, Bermo, Bokaro",
-    district: "Dist- Bokaro-829124 (Jharkhand)",
-    phone: "9999999999",
-    email: "youremail@gmail.com",
+  const info = {
+    profile: {
+      name: "SHAHBAJ AHMAD",
+      role: "Full Stack Developer",
+      address: "Subhash Nagar, Bermo, Bokaro",
+      district: "Dist- Bokaro-829124 (Jharkhand)",
+      phone: "9999999999",
+      email: "youremail@gmail.com",
+      avatar: "https://bootdey.com/img/Content/avatar/avatar7.png",
+    },
     careerObjective:
       "Aim to be associated with a progressive organization which offers an excellent atmosphere to prove myself by utilizing all technical knowledge into practice and profit myself with experience and valuable knowledge for the development and growth of the organization.",
     education: [
       {
-        title: "B.COM (ACCOUNTS HONS)",
-        college: "R.V.S. (B.S.CITY)",
+        course: "B.COM (ACCOUNTS HONS)",
+        yearOfPass: "2024",
+        percentage: "",
         university: "Vinoba Bhave University Hazaribagh",
-        division: "2nd",
-      },
-      {
-        title: "INTERMEDIATE",
-        school: "Ananda College, Hazaribagh (Jharkhand)",
-        board: "J.A.C.",
-        division: "2nd",
-      },
-      {
-        title: "SECONDARY SCHOOL CERTIFICATE (SSC)",
-        school: "Ram Ratan High School (Jharkhand)",
-        board: "J.A.C",
         division: "2nd",
       },
     ],
@@ -35,19 +29,37 @@ const Resume = () => {
       technical: "Tally, Typing",
     },
     hobbies: ["Interact with people", "Travelling", "Listening Hollywood Song"],
-  });
-
+    social: {
+      website: "https://bootdey.com",
+      github: "bootdey",
+      twitter: "@bootdey",
+      instagram: "bootdey",
+      facebook: "bootdey",
+    },
+    progress: {
+      left: [60, 70, 65, 75, 90],
+      right: [50, 65, 60, 70, 85],
+      labels: [
+        "Web Design",
+        "Website Markup",
+        "One Page",
+        "Mobile Template",
+        "Backend API",
+      ],
+    },
+  };
+  const [data] = useState(info);
   const pattern = [
-    <div className="gap-2 ps-5 row container-fluid">
+    <div className="gap-2 p-5 row container-fluid" id="1" key={1}>
       <h5 className="card p-2" style={{ backgroundColor: "#adb5bd" }}>
         CURRICULUM VITAE
       </h5>
       <div className="card p-3 col-md-12 ">
-        <h4 className="">{data.name}</h4>
-        <p>{data.address}</p>
-        <p>{data.district}</p>
-        <p>Mobile: {data.phone}</p>
-        <p>Email: {data.email}</p>
+        <h4 className="">{data.profile.name}</h4>
+        <p>{data.profile.address}</p>
+        <p>{data.profile.district}</p>
+        <p>Mobile: {data.profile.phone}</p>
+        <p>Email: {data.profile.email}</p>
       </div>
       {/* Career Objective */}
       <div className="p-0">
@@ -64,10 +76,10 @@ const Resume = () => {
         <ul>
           {data.education.map((edu, idx) => (
             <div key={idx} className="mt-4 pl-4">
-              <li>{edu.title}</li>
+              <li>{edu.course}</li>
               <p>
-                {edu.college || edu.school} <br />
-                {edu.university || edu.board} <br />
+                {edu.yearOfPass} <br />
+                {edu.university} <br />
                 Division: {edu.division}
               </p>
             </div>
@@ -96,15 +108,15 @@ const Resume = () => {
         </ul>
       </section>
     </div>,
-    <div className="card m-3 p-3 ">
+    <div className="card m-3 p-3 " id="2" key={2}>
       <h2 className="text-center">Curriculum Vitae</h2>
       <div className="mt-4 text-center">
-        <h5 className="text-lg font-semibold">{data.name}</h5>
+        <h5 className="text-lg font-semibold">{data.profile.name}</h5>
         <p>
-          {data.address}, {data.district}
+          {data.profile.address}, {data.profile.district}
         </p>
         <p>
-          Phone: {data.phone} | Email: {data.email}
+          Phone: {data.profile.phone} | Email: {data.profile.email}
         </p>
       </div>
       <div className="mt-6">
@@ -112,16 +124,16 @@ const Resume = () => {
         <p className="mt-2 text-justify">{data.careerObjective}</p>
       </div>
     </div>,
-    <div className="p-3">
+    <div className="p-3" id="3" key={3}>
       {/* Left Sidebar */}
 
       <ul>
-        <h5 className="font-bold text-lg">{data.name}</h5>
+        <h5 className="font-bold text-lg">{data.profile.name}</h5>
         <li className="text-sm">
-          {data.address}, {data.district}
+          {data.profile.address}, {data.profile.district}
         </li>
-        <li className="text-sm">📞 {data.phone}</li>
-        <li className="text-sm">📧 {data.email}</li>
+        <li className="text-sm">📞 {data.profile.phone}</li>
+        <li className="text-sm">📧 {data.profile.email}</li>
       </ul>
       <ul className="mt-4">
         <h4 className="font-semibold underline">Skills</h4>
@@ -137,23 +149,23 @@ const Resume = () => {
         <h5 className="text-xl font-bold mt-4">Academic Details</h5>
         {data.education.map((edu, idx) => (
           <ul key={idx} className="mt-2 pl-2 border-l-4 border-blue-500">
-            <li className="font-bold">{edu.title}</li>
-            <p className="text-sm">{edu.college || edu.school}</p>
-            <p className="text-sm">{edu.university || edu.board}</p>
+            <li className="font-bold">{edu.course}</li>
+            <p className="text-sm">{edu.yearOfPass}</p>
+            <p className="text-sm">{edu.university}</p>
             <p className="text-sm">Division: {edu.division}</p>
           </ul>
         ))}
       </div>
     </div>,
-    <div className="m-5 max-w-3xl  p-5 bg-white shadow-lg rounded-lg border border-gray-300">
+    <div id="4" className="m-5 max-w-3xl  p-5 bg-white shadow-lg rounded-lg border border-gray-300" key={4}>
       <h1 className="text-2xl font-bold text-center mb-6">Resume</h1>
       <div className="space-y-2">
-        <h2 className="text-xl font-semibold">{data.name}</h2>
+        <h2 className="text-xl font-semibold">{data.profile.name}</h2>
         <p>
-          {data.address}, {data.district}
+          {data.profile.address}, {data.profile.district}
         </p>
         <p>
-          Phone: {data.phone} | Email: {data.email}
+          Phone: {data.profile.phone} | Email: {data.profile.email}
         </p>
       </div>
       <hr className="my-4" />
@@ -166,23 +178,23 @@ const Resume = () => {
         <h5 className="font-semibold text-lg mb-1">Education</h5>
         {data.education.map((edu, i) => (
           <div key={i} className="mb-2">
-            <p className="font-bold">{edu.title}</p>
-            <p className="text-sm">{edu.college || edu.school}</p>
-            <p className="text-sm">{edu.university || edu.board}</p>
+            <p className="font-bold">{edu.course}</p>
+            <p className="text-sm">{edu.yearOfPass}</p>
+            <p className="text-sm">{edu.university}</p>
             <p className="text-sm">Division: {edu.division}</p>
           </div>
         ))}
       </div>
     </div>,
-    <div className="m-5  bg-gray-900 text-gray-100 p-5 rounded shadow-lg">
+    <div id="5" className="m-5  bg-gray-900 text-gray-100 p-5 rounded shadow-lg" key={5}>
       <h1 className="text-3xl font-bold text-center text-yellow-400">Resume</h1>
       <div className="mt-4">
-        <h2 className="text-lg font-bold">{data.name}</h2>
+        <h2 className="text-lg font-bold">{data.profile.name}</h2>
         <p>
-          {data.address}, {data.district}
+          {data.profile.address}, {data.profile.district}
         </p>
         <p>
-          {data.phone} | {data.email}
+          {data.profile.phone} | {data.profile.email}
         </p>
       </div>
       <div className="mt-6">
@@ -197,23 +209,23 @@ const Resume = () => {
         </h5>
         {data.education.map((edu, i) => (
           <ul key={i} className="mb-3">
-            <li className="font-semibold">{edu.title}</li>
-            <p>{edu.college || edu.school}</p>
-            <p>{edu.university || edu.board}</p>
+            <li className="font-semibold">{edu.course}</li>
+            <p>{edu.yearOfPass}</p>
+            <p>{edu.university}</p>
             <p>Division: {edu.division}</p>
           </ul>
         ))}
       </div>
     </div>,
-    <div className="p-5 bg-white max-w-4xl mx-auto space-y-6">
+    <div id="6" className="p-5 bg-white max-w-4xl mx-auto space-y-6" key={6}>
       <div className="text-center">
         <h2 className="text-2xl font-bold">Curriculum Vitae</h2>
         <p>{data.name}</p>
         <p>
-          {data.address}, {data.district}
+          {data.profile.address}, {data.profile.district}
         </p>
         <p>
-          {data.phone} | {data.email}
+          {data.profile.phone} | {data.profile.email}
         </p>
       </div>
 
@@ -226,9 +238,9 @@ const Resume = () => {
         <h5 className="text-lg font-bold mb-2">Academic Details</h5>
         {data.education.map((edu, i) => (
           <div key={i} className="text-sm mb-3">
-            <strong>{edu.title}</strong>
-            <p>{edu.college || edu.school}</p>
-            <p>{edu.university || edu.board}</p>
+            <strong>{edu.course}</strong>
+            <p>{edu.yearOfPass}</p>
+            <p>{edu.university}</p>
             <p>Division: {edu.division}</p>
           </div>
         ))}
@@ -256,6 +268,25 @@ const Resume = () => {
       setcount(pattern.length - 1);
     }
   }
+  const handleDownload = async () => {
+    const input =  document.getElementById(`${count + 1}`);
+    if (!input) return;
+    try {
+      const canvas = await html2canvas(input, {
+        useCORS: true,
+        scale: 2,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("download.pdf");
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+    }
+  };
   return (
     <>
       <div className="ms-5 m-2">
@@ -265,9 +296,17 @@ const Resume = () => {
         <button onClick={countInc} className="btn btn-outline-info">
           {">"}
         </button>
-        <NavLink to="/resumeform" className="btn btn-outline-info ms-2">
-          Edit Info
-        </NavLink>
+        {/* <button
+          onClick={() => {
+            window.print();
+          }}
+          className="btn btn-outline-info"
+        >
+          Print Resume
+        </button> */}
+        <button className="btn btn-outline-info me-2" onClick={handleDownload}>
+          Download as PDF
+        </button>
       </div>
       {pattern[count]}
     </>

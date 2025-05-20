@@ -15,7 +15,6 @@ const Login = () => {
     credentials.map((c) => {
       if (c.email == email && pass == c.pass) {
         sessionStorage.setItem("logedin", JSON.stringify("hello"));
-        console.log("hello");
         navigate("/");
       }
     });

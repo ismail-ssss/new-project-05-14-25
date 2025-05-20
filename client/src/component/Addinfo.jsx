@@ -1,207 +1,200 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+  handleSubmit,
+  data,
+  handleAddEdu,
+  handledeleteEdu,
+  handleEduChange,
+  addProperty,
+  DeleteProperty,
+  DeleteEduProperty,
+  updateProperty,
+  handleimg,
+  addEduInput,
+} from "../js/handleButtons";
+// import { useNavigate } from "react-router-dom";
 
 const Addinfo = () => {
-  const initialState = {
-    profile: {
-      name: "",
-      role: "",
-      location: "",
-      avatar: "https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    contact: {
-      fullName: "",
-      email: "",
-      phone: "",
-      mobile: "",
-      address: "",
-    },
-    social: {
-      website: "",
-      github: "",
-      twitter: "",
-      instagram: "",
-      facebook: "",
-    },
-    progress: {
-      labels: [
-        "Web Design",
-        "Website Markup",
-        "One Page",
-        "Mobile Template",
-        "Backend API",
-      ],
-      left: [50, 60, 55, 65, 75],
-      right: [45, 55, 60, 70, 80],
-    },
-  };
-
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [formData, setFormData] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
       ? JSON.parse(localStorage.getItem("userInfo"))
-      : initialState
+      : data
   );
-
-  const handleChange = (section, field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [field]: value,
-      },
-    }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    localStorage.setItem("userInfo", JSON.stringify(formData));
-    navigate("/");
-  };
 
   return (
     <>
       <div className="container-fluied ">
-        <form onSubmit={handleSubmit} className="mt-4">
+        <form onSubmit={(e) => handleSubmit(formData, e)} className="mt-4">
           <div className="row p-5 gap-4">
-            <div className="card col p-2">
-              <h4>Basic Profile Info</h4>
-              <div className="card-body">
-                <div className="">
-                  <label className="block font-semibold">Upload Image:</label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    className="mb-4"
-                    onChange={(e) => {
-                      const file = e.target.files[0];
-                      if (!file) return;
-                      const reader = new FileReader();
-                      reader.onloadend = () => {
-                        const base64Image = reader.result;
-                        handleChange("profile", "avatar", base64Image);
-                      };
-                      reader.readAsDataURL(file);
-                    }}
-                  />
+            <input
+              type="file"
+              accept="image/*"
+              className="mb-4"
+              onChange={(e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onloadend = () => {
+                  const base64Image = reader.result;
+                  handleimg("avatar", base64Image);
+                };
+                reader.readAsDataURL(file);
+              }}
+            />
+            <div className="card col-md-4 p-2">
+              <div className="m-2  align-items-center">
+                <div>
+                  <span className="font-semibold fs-3">Basic Profile Info</span>
+                  <span
+                    onClick={() =>
+                      addProperty("profile", formData, setFormData)
+                    }
+                    className="btn btn-outline-dark ms-3 p-1"
+                  >
+                    Add
+                  </span>
                 </div>
-                <input
-                  className="form-control my-2"
-                  placeholder="Name"
-                  onChange={(e) =>
-                    handleChange("profile", "name", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Role"
-                  value={formData.profile.role}
-                  onChange={(e) =>
-                    handleChange("profile", "role", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Location"
-                  value={formData.profile.location}
-                  onChange={(e) =>
-                    handleChange("profile", "location", e.target.value)
-                  }
-                />
+                {formData.profile.map((item, index) => (
+                  <div
+                    key={index}
+                    className="m-2 d-flex align-items-center position-relative"
+                  >
+                    <label htmlFor="" className=" d-flex p-1 fs-3 fw-bold">
+                      {item.key}
+                    </label>
+                    <input
+                      className="form-control my-2 ms-2 p-2"
+                      placeholder={item.key}
+                      value={item.value}
+                      onChange={(e) =>
+                        updateProperty(
+                          "profile",
+                          item,
+                          e.target.value,
+                          setFormData
+                        )
+                      }
+                    />
+                    <span
+                      onClick={() =>
+                        DeleteProperty("profile", item.key, setFormData)
+                      }
+                      className="btn top-0 end-0   ms-2 p-1 position-absolute"
+                    >
+                      x
+                    </span>
+                  </div>
+                ))}
               </div>
             </div>
-            <div className="card col p-2">
-              <h4>Contact Info</h4>
-              <div className="card-body">
-                <input
-                  className="form-control my-2"
-                  placeholder="Full Name"
-                  value={formData.contact.fullName}
-                  onChange={(e) =>
-                    handleChange("contact", "fullName", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Email"
-                  value={formData.contact.email}
-                  onChange={(e) =>
-                    handleChange("contact", "email", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Phone"
-                  value={formData.contact.phone}
-                  onChange={(e) =>
-                    handleChange("contact", "phone", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Mobile"
-                  value={formData.contact.mobile}
-                  onChange={(e) =>
-                    handleChange("contact", "mobile", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Address"
-                  value={formData.contact.address}
-                  onChange={(e) =>
-                    handleChange("contact", "address", e.target.value)
-                  }
-                />
+            <div className="card col-md-4 p-2">
+              <div>
+                <span className="font-semibold fs-3">Social Links</span>
+                <span
+                  onClick={() => addProperty("social", formData, setFormData)}
+                  className="btn btn-outline-dark ms-3 p-1"
+                >
+                  Add
+                </span>
               </div>
+              {formData.social.map((item, index) => (
+                <div key={index} className="m-2 position-relative d-flex ">
+                  <label htmlFor={item.key}>{item.key}</label>
+                  <input
+                    className="form-control"
+                    placeholder={item.key}
+                    value={item.value}
+                    onChange={(e) =>
+                      updateProperty(
+                        "social",
+                        item,
+                        e.target.value,
+                        setFormData
+                      )
+                    }
+                  />
+                  <span
+                    onClick={() =>
+                      DeleteProperty("social", item.key, setFormData)
+                    }
+                    className="btn top-0 end-0  ms-2 p-1 position-absolute"
+                  >
+                    x
+                  </span>
+                </div>
+              ))}
             </div>
-            <div className="card col p-2">
-              <h4>Social Links</h4>
-              <div className="card-body">
-                <input
-                  className="form-control my-2"
-                  placeholder="Website"
-                  value={formData.social.website}
-                  onChange={(e) =>
-                    handleChange("social", "website", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Github"
-                  value={formData.social.github}
-                  onChange={(e) =>
-                    handleChange("social", "github", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Twitter"
-                  value={formData.social.twitter}
-                  onChange={(e) =>
-                    handleChange("social", "twitter", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Instagram"
-                  value={formData.social.instagram}
-                  onChange={(e) =>
-                    handleChange("social", "instagram", e.target.value)
-                  }
-                />
-                <input
-                  className="form-control my-2"
-                  placeholder="Facebook"
-                  value={formData.social.facebook}
-                  onChange={(e) =>
-                    handleChange("social", "facebook", e.target.value)
-                  }
-                />
+            <div className="row">
+              <div className="m-2 border p-2 rounded ">
+                <span className="font-semibold fs-3 ">Education</span>
+                <span
+                  onClick={() => handleAddEdu(formData, setFormData)}
+                  className="btn btn-outline-dark ms-3"
+                >
+                  Add
+                </span>
               </div>
+              {formData.education.map((edu, index) => (
+                <div
+                  key={index}
+                  className="m-auto gap-2 col-md-3 card p-3 position-relative"
+                >
+                  <span
+                    onClick={() =>
+                      handledeleteEdu(index, formData, setFormData)
+                    }
+                    className="position-absolute top-0 end-0 btn  me-1 p-0"
+                  >
+                    X
+                  </span>
+                  <div className="d-flex align-items-center">
+                    <label htmlFor="" className="d-flex p-1 fs-3 fw-bold">
+                      {edu.key}
+                    </label>
+                    <span
+                      onClick={() =>
+                        addEduInput(edu.key, formData, setFormData)
+                      }
+                      className="btn btn-outline-dark ms-3 p-1"
+                    >
+                      Add
+                    </span>
+                  </div>
+                  {edu.value.map((item, index) => (
+                    <div
+                      className="d-flex align-items-center position-relative"
+                      key={index}
+                    >
+                      <label htmlFor="">{item.key}</label>
+                      <input
+                        value={item.value}
+                        onChange={(e) =>
+                          handleEduChange(
+                            setFormData,
+                            index,
+                            "course",
+                            e.target.value
+                          )
+                        }
+                        placeholder="course"
+                        className="input form-control mt-1 ms-1"
+                      />
+                      <span
+                        onClick={() =>
+                          DeleteEduProperty(edu.key, item.key, setFormData)
+                        }
+                        className="position-absolute top-0 end-0 btn  me-1 p-0"
+                      >
+                        X
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
             <button type="submit" className="btn btn-success mt-3">
-              Create Profile
+              Save Profile
             </button>
           </div>
         </form>

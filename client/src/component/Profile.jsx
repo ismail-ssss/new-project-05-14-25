@@ -1,61 +1,53 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { data } from "../js/handleButtons";
 
 const Profile = () => {
-  const data = {
-    profile: {
-      name: "John Doe",
-      role: "Full Stack Developer",
-      location: "Bay Area, San Francisco, CA",
-      avatar: "https://bootdey.com/img/Content/avatar/avatar7.png",
-    },
-    contact: {
-      fullName: "Kenneth Valdez",
-      email: "fip@jukmuh.al",
-      phone: "(239) 816-9029",
-      mobile: "(320) 380-4539",
-      address: "Bay Area, San Francisco, CA",
-    },
-    social: {
-      website: "https://bootdey.com",
-      github: "bootdey",
-      twitter: "@bootdey",
-      instagram: "bootdey",
-      facebook: "bootdey",
-    },
-    progress: {
-      left: [60, 70, 65, 75, 90],
-      right: [50, 65, 60, 70, 85],
-      labels: [
-        "Web Design",
-        "Website Markup",
-        "One Page",
-        "Mobile Template",
-        "Backend API",
-      ],
-    },
-  };
-  const [formData, setFormData] = useState(
+  const [formData] = useState(
     JSON.parse(localStorage.getItem("userInfo"))
+      ? JSON.parse(localStorage.getItem("userInfo"))
+      : data
   );
-  const { profile, contact, social, progress } = formData ? formData : data;
+  const { profile, social, avatar, progress } = formData;
+  const handleDownload = async () => {
+    const input = document.getElementById("content");
+    if (!input) return;
+    try {
+      const canvas = await html2canvas(input, {
+        useCORS: true,
+        scale: 2,
+      });
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("download.pdf");
+    } catch (error) {
+      console.error("PDF generation failed:", error);
+    }
+  };
+
   return (
     <>
-      <div className="container mt-4">
+      <div className="container  card p-4" id="content">
         <div className="row">
           {/* Profile Card */}
           <div className="col-md-4 text-center">
             <div className="card">
               <div className="card-body">
                 <img
-                  src={profile.avatar}
+                  src={avatar}
                   className="rounded-circle mb-3"
                   width="120"
                   alt="Profile"
                 />
-                <h4>{profile.name}</h4>
-                <p className="text-muted">{profile.role}</p>
-                <p className="text-muted">{profile.location}</p>
+                <h4>{profile[0].value}</h4>
+                <p className="text-muted">{profile[1].value}</p>
+                <p className="text-muted">{profile[2].value}</p>
                 <button className="btn btn-primary btn-sm me-2">Follow</button>
                 <button className="btn btn-outline-primary btn-sm">
                   Message
@@ -65,17 +57,14 @@ const Profile = () => {
 
             {/* Social Links */}
             <ul className="list-group mt-3">
-              <li className="list-group-item">
-                🌐 Website: <a target="blank" href={social.website}>{social.website}</a>
-              </li>
-              <li className="list-group-item">💻 Github: <a target="blank" href={social.github}>{social.github}</a></li>
-              <li className="list-group-item">🐦 Twitter: <a target="blank" href={social.twitter}>{social.twitter}</a></li>
-              <li className="list-group-item">
-                📸 Instagram: <a target="blank" href={social.instagram}>{social.instagram}</a>
-              </li>
-              <li className="list-group-item">
-                📘 Facebook: <a target="blank" href={social.facebook}>{social.facebook}</a>
-              </li>
+              {social.map((item, index) => (
+                <li key={index } className="list-group-item">
+                  {item.key+" : "}
+                  <a target="blank" href={item.value}>
+                    {item.value}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -83,45 +72,23 @@ const Profile = () => {
           <div className="col-md-8">
             <div className="card mb-3">
               <div className="card-body">
-                <div className="row mb-2">
-                  <div className="col-sm-3">
-                    <strong>Full Name</strong>
+                {profile.map((item, index) => (
+                  <div key={index} className="row mb-2">
+                    <div className="col-sm-3">
+                      <strong>{item.key}</strong>
+                    </div>
+                    <div className="col-sm-9 text-secondary">{item.value}</div>
                   </div>
-                  <div className="col-sm-9 text-secondary">
-                    {contact.fullName}
-                  </div>
-                </div>
-                <div className="row mb-2">
-                  <div className="col-sm-3">
-                    <strong>Email</strong>
-                  </div>
-                  <div className="col-sm-9 text-secondary">{contact.email}</div>
-                </div>
-                <div className="row mb-2">
-                  <div className="col-sm-3">
-                    <strong>Phone</strong>
-                  </div>
-                  <div className="col-sm-9 text-secondary">{contact.phone}</div>
-                </div>
-                <div className="row mb-2">
-                  <div className="col-sm-3">
-                    <strong>Mobile</strong>
-                  </div>
-                  <div className="col-sm-9 text-secondary">
-                    {contact.mobile}
-                  </div>
-                </div>
-                <div className="row mb-3">
-                  <div className="col-sm-3">
-                    <strong>Address</strong>
-                  </div>
-                  <div className="col-sm-9 text-secondary">
-                    {contact.address}
-                  </div>
-                </div>
+                ))}
                 <NavLink to="/editinfo" className="btn btn-outline-info me-2">
                   Edit-Info
                 </NavLink>
+                <button
+                  className="btn btn-outline-info me-2"
+                  onClick={handleDownload}
+                >
+                  Download as PDF
+                </button>
               </div>
             </div>
 
