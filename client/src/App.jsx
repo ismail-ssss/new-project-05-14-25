@@ -11,6 +11,7 @@ import Login from "./component/Login";
 import Register from "./component/Register";
 import Addinfo from "./component/Addinfo";
 import { useEffect } from "react";
+import Drag from "./component/Drag";
 function App() {
   let navigate = useNavigate();
   function WithAuth(Func) {
@@ -40,6 +41,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/editinfo" element={<AuthAddinfo />} />
+        <Route path="/drag" element={<Drag />} />
       </Routes>
     </>
   );

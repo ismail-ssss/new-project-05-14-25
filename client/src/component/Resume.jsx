@@ -289,7 +289,7 @@ const Resume = () => {
   };
   return (
     <>
-      <div className="ms-5 m-2">
+      <div className="ms-5 m-2 d-flex gap-2">
         <button onClick={countDec} className="btn btn-outline-info">
           {"<"}
         </button>

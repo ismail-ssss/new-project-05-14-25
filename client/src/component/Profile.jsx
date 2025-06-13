@@ -34,6 +34,7 @@ const Profile = () => {
   return (
     <>
       <div className="container  card p-4" id="content">
+        
         <div className="row">
           {/* Profile Card */}
           <div className="col-md-4 text-center">
@@ -58,8 +59,8 @@ const Profile = () => {
             {/* Social Links */}
             <ul className="list-group mt-3">
               {social.map((item, index) => (
-                <li key={index } className="list-group-item">
-                  {item.key+" : "}
+                <li key={index} className="list-group-item">
+                  {item.key + " : "}
                   <a target="blank" href={item.value}>
                     {item.value}
                   </a>

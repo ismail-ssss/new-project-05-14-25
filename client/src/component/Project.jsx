@@ -1,9 +1,10 @@
 import React from 'react'
+import Com from './Com'
 
 function Project() {
   return (
     <>
-      <h1>project</h1>
+      <Com />
     </>
   )
 }

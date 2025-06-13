@@ -86,6 +86,18 @@ function Navbar() {
               Contact
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink
+              to="/drag"
+              className={({ isActive }) =>
+                isActive
+                  ? "active nav-link bg-info rounded text-white"
+                  : "nav-link"
+              }
+            >
+              Drag
+            </NavLink>
+          </li>
         </ul>
 
         {sessionStorage.getItem("logedin") ? (

@@ -55,6 +55,11 @@ function NavbarToggle() {
               About
             </NavLink>
           </li>
+          <li className="nav-item">
+            <NavLink className="nav-link active" to={"/drag"}>
+              drag
+            </NavLink>
+          </li>
         </ul>
         <NavLink to="/editinfo" className="btn btn-outline-info ">
           Edit-Info

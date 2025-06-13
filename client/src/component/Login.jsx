@@ -1,21 +1,29 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [pass, setPassword] = useState("");
-  let [credentials, setCredentials] = useState(
+  const [err, setErr] = useState("");
+
+  let [credentials] = useState(
     JSON.parse(localStorage.getItem("auth"))
       ? JSON.parse(localStorage.getItem("auth"))
       : []
   );
   const onLogin = (e) => {
     e.preventDefault();
+    if (email === "" || pass === "") {
+      alert("Please fill all fields");
+      return;
+    }
     credentials.map((c) => {
       if (c.email == email && pass == c.pass) {
         sessionStorage.setItem("logedin", JSON.stringify("hello"));
         navigate("/");
+      } else {
+        setErr("Invalid credentials");
       }
     });
   };
@@ -30,6 +38,11 @@ const Login = () => {
           style={{ width: "100%", maxWidth: "400px" }}
         >
           <h3 className="text-center mb-4">Login</h3>
+          {err && (
+            <div className="alert alert-danger" role="alert">
+              {err}
+            </div>
+          )}
           <form onSubmit={onLogin}>
             <div className="form-group mb-3">
               <label>Email address</label>
